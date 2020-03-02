@@ -48,7 +48,7 @@ export const callMutation = async args => {
 			}
 		});
 		console.log("response ==>", response);
-		return response;
+		return response.data;
 	} catch (call_api_error) {
 		throw call_api_error;
 	}

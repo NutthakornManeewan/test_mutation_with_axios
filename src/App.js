@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import MutationButton from "./components/MutationButton";
 import { callMutation } from "./utils/callMutation";
+import { callQuery } from "./utils/cllQuery";
 
 function App() {
 	const [mutatation_state, set_mutatation_state] = useState({});
+	const [query_state, set_query_state] = useState([]);
 
 	const callTheHeaven = async () => {
 		try {
@@ -20,6 +22,16 @@ function App() {
 		}
 	};
 
+	const getFields = async () => {
+		try {
+			const res = await callQuery();
+			set_query_state(res.data.get_all_field);
+			console.log("Res =>", res);
+		} catch (call_query_error) {
+			console.log(call_query_error);
+		}
+	};
+
 	return (
 		<div className="App">
 			<MutationButton
@@ -27,6 +39,8 @@ function App() {
 				clicked={() => callTheHeaven()}
 			/>
 			<div>{JSON.stringify(mutatation_state)}</div>
+			<button onClick={getFields}>Query</button>
+			<div>{JSON.stringify(query_state)}</div>
 		</div>
 	);
 }
