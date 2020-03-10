@@ -4,7 +4,7 @@ import { gql } from "apollo-boost";
 
 const LIST_BOOKS = gql`
 	query {
-		get_all_user {
+		get_user_by_id(user_id: "5e60bc784728327f98e14337") {
 			_id
 			user_name
 		}
