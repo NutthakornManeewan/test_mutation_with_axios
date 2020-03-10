@@ -1,13 +1,13 @@
 import auth0 from "auth0-js";
-import config from "config";
+import config from "./config/default";
 
 class Auth {
 	constructor() {
 		this.auth0 = new auth0.WebAuth({
-			domain: config.get("AUTH0_DOMAIN"),
-			clientID: config.get("AUTH0_CLIENT_ID"),
+			domain: config.AUTH0_DOMAIN,
+			clientID: config.AUTH0_CLIENT_ID,
 			redirectUri: "http://localhost:3000/callback",
-			audience: config.get("AUTH0_AUDIENCE"),
+			audience: config.AUTH0_AUDIENCE,
 			responseType: "token id_token",
 			scope: "openid email"
 		});
@@ -47,7 +47,7 @@ class Auth {
 		localStorage.setItem(this.authFlag, JSON.stringify(false));
 		this.auth0.logout({
 			returnTo: "http://localhost:3000",
-			clientID: config.get("AUTH0_CLIENT_ID")
+			clientID: config.AUTH0_CLIENT_ID
 		});
 	}
 
