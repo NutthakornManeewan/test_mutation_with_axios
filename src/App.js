@@ -1,48 +1,36 @@
-import React, { useState } from "react";
-import MutationButton from "./components/MutationButton";
-import { callMutation } from "./utils/callMutation";
-import { callQuery } from "./utils/cllQuery";
+import React from "react";
+import Nav from "./components/Nav";
+import ListBook from "./components/ListBook";
+import CreateBook from "./components/CreateBook";
+import Callback from "./components/Callback";
+import auth from "./Auth";
+import GuardedRoute from "./components/GuardedRoute";
+import { Route, withRouter } from "react-router-dom";
 
-function App() {
-	const [mutatation_state, set_mutatation_state] = useState({});
-	const [query_state, set_query_state] = useState([]);
-
-	const callTheHeaven = async () => {
+class App extends React.Component {
+	async componentDidMount() {
+		if (this.props.location.pathname === "/callback") return;
 		try {
-			const testInput = {
-				user_name: "Cherprang Areekul",
-				user_email: "cherprang@bnk48.com",
-				user_phone: "+66858707990",
-				user_address: "BNK48 Office (IAM48)"
-			};
-			const res = await callMutation(testInput);
-			set_mutatation_state(res);
-		} catch (response_error) {
-			console.log("Response error ==>", response_error);
+			await auth.silentAuth();
+			this.forceUpdate();
+		} catch (err) {
+			if (err.error === "login_required") return;
+			console.log(err.error);
 		}
-	};
+	}
 
-	const getFields = async () => {
-		try {
-			const res = await callQuery();
-			set_query_state(res.data.get_all_field);
-			console.log("Res =>", res);
-		} catch (call_query_error) {
-			console.log(call_query_error);
-		}
-	};
-
-	return (
-		<div className="App">
-			<MutationButton
-				mutation_label="MUTATION"
-				clicked={() => callTheHeaven()}
-			/>
-			<div>{JSON.stringify(mutatation_state)}</div>
-			<button onClick={getFields}>Query</button>
-			<div>{JSON.stringify(query_state)}</div>
-		</div>
-	);
+	render() {
+		return (
+			<div className="App">
+				<div>
+					<Nav />
+					<Route exact path="/" component={ListBook} />
+					<GuardedRoute exact path="/create" component={CreateBook} />
+					<Route exact path="/callback" component={Callback} />
+				</div>
+			</div>
+		);
+	}
 }
 
-export default App;
+export default withRouter(App);
