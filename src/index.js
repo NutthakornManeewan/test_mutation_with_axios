@@ -10,7 +10,7 @@ import { ApolloProvider } from "react-apollo";
 import * as serviceWorker from "./serviceWorker";
 
 const client = new ApolloClient({
-	uri: "https://localhost:5000/graphql",
+	uri: "https://localhost:3838/graphql",
 	request: operation => {
 		operation.setContext(context => ({
 			headers: {
