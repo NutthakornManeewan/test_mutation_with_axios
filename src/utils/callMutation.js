@@ -65,7 +65,7 @@ export const callMutation = async args => {
 	const { user_name, user_email, user_phone, user_address } = { ...args };
 	try {
 		const response = await axios({
-			url: config.SERVER_URL,
+			url: `https://${config.HOST_NAME}:${config.SERVICE_PORT}/graphql`,
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
