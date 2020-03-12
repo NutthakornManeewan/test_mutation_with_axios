@@ -19,7 +19,7 @@ const GET_FIELDS = gql`
 export const callQuery = async () => {
 	try {
 		const response = await axios({
-			url: config.SERVER_URL,
+			url: `https://${config.HOST_NAME}:${config.SERVICE_PORT}/graphql`,
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

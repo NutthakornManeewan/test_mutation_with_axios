@@ -9,7 +9,7 @@ class Auth {
 			redirectUri: "http://localhost:3000/callback",
 			audience: config.AUTH0_AUDIENCE,
 			responseType: "token id_token",
-			scope: "openid email"
+			scope: "openid email profile"
 		});
 		this.authFlag = "isLoggedIn";
 		this.signIn = this.signIn.bind(this);
